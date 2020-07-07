@@ -1,17 +1,46 @@
-from flask import Flask,g,make_response,Response
+from flask import Flask,g,make_response,Response,url_for,request,render_template
 
+import os
 app = Flask(__name__)
 app.debug = True
 
 # 기본페이지
 @app.route("/")
 def helloworld():
-    return 'HI this is flask'
-###################333
+    return os.getcwd()
+
+
+##################
 @app.route('/res1')
 def res1():
     custom_res = Response("Custom Response",201,{'test':'tttt'})
     return make_response(custom_res)
+
+@app.route('/test')
+def test():
+    print('test page')
+
+
+@app.route('/login',methods=['POST','GET'])
+def login():
+    if request.method =='POST':
+        return 'post'
+    else:
+        return 'get'
+
+
+
+@app.route('/arg/<int:send_int>')
+def show_postint(send_int):
+    return '숫자가 날라왔음 {}'.format(send_int)
+
+# ***path : like the default but also accepts slashes
+
+@app.route('/arg/<strings>')
+def show_string(strings):
+    return '글자가 날라왔음 {}'.format(strings)
+
+
 
 @app.route('/test_wsgi')
 def wsgi_test():
@@ -23,6 +52,16 @@ def wsgi_test():
         start_response('200 OK',headers)
         return [body]
     return make_response(application)
+
+@app.route('/index')
+def hello():
+    return render_template('web/html.html')
+
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return '이페이지 없는딩',404
 
 #
 # @app.before_request # 요청 시작전에 실행
