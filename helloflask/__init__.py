@@ -1,8 +1,18 @@
 from flask import Flask,g,make_response,Response,url_for,request,render_template
+from flask_sqlalchemy import SQLAlchemy
+
 
 import os
 app = Flask(__name__)
 app.debug = True
+
+
+app.config['SECRET_KEY'] = 'this is secret'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
 
 # 기본페이지
 @app.route("/")
@@ -40,7 +50,9 @@ def show_postint(send_int):
 def show_string(strings):
     return '글자가 날라왔음 {}'.format(strings)
 
-
+@app.route('/about')
+def show_about():
+    return render_template('about.html')
 
 @app.route('/test_wsgi')
 def wsgi_test():
@@ -54,7 +66,7 @@ def wsgi_test():
     return make_response(application)
 
 @app.route('/index')
-def hello():
+def index():
     sample = '이건 샘플 텍스트'
     g.title = 'This is Title'
 
@@ -86,8 +98,6 @@ def page_not_found(error):
 @app.before_request # 요청 시작전에 실행
 def before_request():
     print("before_request!! 난 무조건 처음에나와")
-    sample = '이건 샘플 텍스트'
-
     g.str = '이동기'    # g는 application context(영역)이다.
 
 # @app.route('/gtest')
