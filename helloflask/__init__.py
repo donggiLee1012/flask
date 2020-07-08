@@ -55,7 +55,26 @@ def wsgi_test():
 
 @app.route('/index')
 def hello():
-    return render_template('web/html.html')
+    sample = '이건 샘플 텍스트'
+    g.title = 'This is Title'
+
+    glist = ['a','b','c']
+
+    posts = [
+        {
+            'name' : '이동기',
+            'age' : 27,
+            'job' : '취준생'
+        },
+        {
+            'name': '삼동기',
+            'age': 37,
+            'job': '셀럽'
+        }
+
+
+    ]
+    return render_template('index.html',sample=sample,glist=glist,posts=posts)
 
 
 
@@ -63,12 +82,14 @@ def hello():
 def page_not_found(error):
     return '이페이지 없는딩',404
 
-#
-# @app.before_request # 요청 시작전에 실행
-# def before_request():
-#     print("before_request!! 난 무조건 처음에나와")
-#     g.str = '한글'    # g는 application context(영역)이다.
-#
+
+@app.before_request # 요청 시작전에 실행
+def before_request():
+    print("before_request!! 난 무조건 처음에나와")
+    sample = '이건 샘플 텍스트'
+
+    g.str = '이동기'    # g는 application context(영역)이다.
+
 # @app.route('/gtest')
 # def helloworld2():
 #     return 'global test' + getattr(g,'str','없으면이거')

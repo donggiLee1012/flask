@@ -1,10 +1,44 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>{{title}}</title>
-  </head>
-  <body>
-  hi this is {{name}}
-  </body>
-</html>
+{% extends 'layout.html' %}
+
+{% block content1 -%}
+내이름은 : {{g.str-}}
+
+
+
+
+
+
+
+여기는 원레안나오나??
+<br>
+{{-sample|default('sample is empty')-}}
+{% for i in glist-%}
+{{i}}
+{% endfor%}
+
+{%for i in posts%}
+{{i.name}}
+{{i.age}}
+{{i.job}}
+<br>
+{%endfor%}
+
+<form action="index.html" method="post" name='login'>
+  <fieldset style="width:170px">
+    <legend>로그인</legend>
+      아이디 : <input type="text" name="id" placeholder="Login...">
+    패스워드 : <input type="password" name="password" placeholder="Password...">
+<br><br>
+    <input type="submit" value="로그인">
+    <input type="reset" value="입력 초기화">
+  </fieldset>
+
+</form>
+
+
+{% endblock %}
+
+
+{% block content2 %}
+네비게이션 바
+{% endblock %}
