@@ -1,4 +1,6 @@
 from flask import Flask,g,make_response,Response,url_for,request,render_template
+from config import Config
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -6,12 +8,9 @@ import os
 app = Flask(__name__)
 app.debug = True
 
-
-app.config['SECRET_KEY'] = 'this is secret'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
+app.config.from_object(Config)
 db = SQLAlchemy(app)
+migrate = Migrate(app,db)
 
 
 # 기본페이지
@@ -28,17 +27,30 @@ def res1():
 
 @app.route('/test')
 def test():
-    print('test page')
+    return render_template('navbar.html',title='테스트 페이지')
 
 
-@app.route('/login',methods=['POST','GET'])
-def login():
-    if request.method =='POST':
-        return 'post'
-    else:
-        return 'get'
+# @app.route('/login', methods=['POST', 'GET'])
+# def login():
+#     error = None
+#     if request.method == 'POST':
+#         if valid_login(request.form['username'],
+#                        request.form['password']):
+#             return log_the_user_in(request.form['username'])
+#         else:
+#             error = 'Invalid username/password'
+#     # 아래의 코드는 요청이 GET 이거나, 인증정보가 잘못됐을때 실행된다.
+#     return render_template('login.html', error=error)
 
+# @app.route('/login',methods=['POST','GET'])
+# def login():
+#     if request.method =='POST':
+#         return 'post'
+#     else:
+#         return 'get'
 
+# *** GET 방식으로 넘어온 ?key=value 질의문자열 접근방법
+# searchword = request.args.get('key', '')
 
 @app.route('/arg/<int:send_int>')
 def show_postint(send_int):
