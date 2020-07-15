@@ -1,0 +1,298 @@
+{%extends 'main.html'%}
+
+{%block head %}
+{{super()}}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/crawling.css') }}">
+<script type="text/javascript" src="{{ url_for('static', filename='jquery/crawling.js') }}"></script>
+{%endblock%}
+
+
+{% block main_text %}
+<h1 class='curentpage'>Crawling Process Page</h1>
+<div class="table-responsive">
+  <table class="table table-bordered table-hover" >
+    <thead>
+      <tr>
+        <th>Page</th>
+        <th>Visits</th>
+        <th>% New Visits</th>
+        <th>Revenue</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>/index.html</td>
+        <td>1265</td>
+        <td>32.3%</td>
+        <td>$321.33</td>
+      </tr>
+      <tr>
+        <td>/about.html</td>
+        <td>261</td>
+        <td>33.3%</td>
+        <td>$234.12</td>
+      </tr>
+      <tr>
+        <td>/sales.html</td>
+        <td>665</td>
+        <td>21.3%</td>
+        <td>$16.34</td>
+      </tr>
+      <tr>
+        <td>/blog.html</td>
+        <td>9516</td>
+        <td>89.3%</td>
+        <td>$1644.43</td>
+      </tr>
+      <tr>
+        <td>/404.html</td>
+        <td>23</td>
+        <td>34.3%</td>
+        <td>$23.52</td>
+      </tr>
+      <tr>
+        <td>/services.html</td>
+        <td>421</td>
+        <td>60.3%</td>
+        <td>$724.32</td>
+      </tr>
+      <tr>
+        <td>/blog/post.html</td>
+        <td>1233</td>
+        <td>93.2%</td>
+        <td>$126.34</td>
+      </tr>
+      <tr>
+        <td>/index.html</td>
+        <td>1265</td>
+        <td>32.3%</td>
+        <td>$321.33</td>
+      </tr>
+      <tr>
+        <td>/about.html</td>
+        <td>261</td>
+        <td>33.3%</td>
+        <td>$234.12</td>
+      </tr>
+      <tr>
+        <td>/sales.html</td>
+        <td>665</td>
+        <td>21.3%</td>
+        <td>$16.34</td>
+      </tr>
+      <tr>
+        <td>/blog.html</td>
+        <td>9516</td>
+        <td>89.3%</td>
+        <td>$1644.43</td>
+      </tr>
+      <tr>
+        <td>/404.html</td>
+        <td>23</td>
+        <td>34.3%</td>
+        <td>$23.52</td>
+      </tr>
+      <tr>
+        <td>/services.html</td>
+        <td>421</td>
+        <td>60.3%</td>
+        <td>$724.32</td>
+      </tr>
+      <tr>
+        <td>/blog/post.html</td>
+        <td>1233</td>
+        <td>93.2%</td>
+        <td>$126.34</td>
+      </tr>
+      <tr>
+        <td>/index.html</td>
+        <td>1265</td>
+        <td>32.3%</td>
+        <td>$321.33</td>
+      </tr>
+      <tr>
+        <td>/about.html</td>
+        <td>261</td>
+        <td>33.3%</td>
+        <td>$234.12</td>
+      </tr>
+      <tr>
+        <td>/sales.html</td>
+        <td>665</td>
+        <td>21.3%</td>
+        <td>$16.34</td>
+      </tr>
+      <tr>
+        <td>/blog.html</td>
+        <td>9516</td>
+        <td>89.3%</td>
+        <td>$1644.43</td>
+      </tr>
+      <tr>
+        <td>/404.html</td>
+        <td>23</td>
+        <td>34.3%</td>
+        <td>$23.52</td>
+      </tr>
+      <tr>
+        <td>/services.html</td>
+        <td>421</td>
+        <td>60.3%</td>
+        <td>$724.32</td>
+      </tr>
+      <tr>
+        <td>/blog/post.html</td>
+        <td>1233</td>
+        <td>93.2%</td>
+        <td>$126.34</td>
+      </tr>
+      <tr>
+        <td>/index.html</td>
+        <td>1265</td>
+        <td>32.3%</td>
+        <td>$321.33</td>
+      </tr>
+      <tr>
+        <td>/about.html</td>
+        <td>261</td>
+        <td>33.3%</td>
+        <td>$234.12</td>
+      </tr>
+      <tr>
+        <td>/sales.html</td>
+        <td>665</td>
+        <td>21.3%</td>
+        <td>$16.34</td>
+      </tr>
+      <tr>
+        <td>/blog.html</td>
+        <td>9516</td>
+        <td>89.3%</td>
+        <td>$1644.43</td>
+      </tr>
+
+      <tr>
+        <td>/404.html</td>
+        <td>23</td>
+        <td>34.3%</td>
+        <td>$23.52</td>
+      </tr>
+      <tr>
+        <td>/services.html</td>
+        <td>421</td>
+        <td>60.3%</td>
+        <td>$724.32</td>
+      </tr>
+      <tr>
+        <td>/blog/post.html</td>
+        <td>1233</td>
+        <td>93.2%</td>
+        <td>$126.34</td>
+      </tr>
+
+    </tbody>
+  </table>
+  <ul class="pagination">
+
+  </ul>
+</div>
+{% endblock %}
+
+{% block body_text %}
+<div style="width:100%; height:200px; overflow:auto">
+
+  <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+  <div class="table-responsive">
+    <table id="myTable" class="table table-bordered table-hover">
+      <thead>
+        <tr class="header">
+          <th style="width:60%;">Name</th>
+          <th style="width:40%;">Country</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>Alfreds Futterkiste</td>
+          <td>Germany</td>
+        </tr>
+        <tr>
+          <td>Berglunds snabbkop</td>
+          <td>Sweden</td>
+        </tr>
+        <tr>
+          <td>Island Trading</td>
+          <td>UK</td>
+        </tr>
+        <tr>
+          <td>Koniglich Essen</td>
+          <td>Germany</td>
+        </tr>
+        <tr>
+          <td>Laughing Bacchus Winecellars</td>
+          <td>Canada</td>
+        </tr>
+        <tr>
+          <td>Magazzini Alimentari Riuniti</td>
+          <td>Italy</td>
+        </tr>
+        <tr>
+          <td>North/South</td>
+          <td>UK</td>
+        </tr>
+        <tr>
+          <td>Paris specialites</td>
+          <td>France</td>
+        </tr>
+        <tr>
+          <td>North/South</td>
+          <td>UK</td>
+        </tr>
+        <tr>
+          <td>Paris specialites</td>
+          <td>France</td>
+        </tr><tr>
+          <td>North/South</td>
+          <td>UK</td>
+        </tr>
+        <tr>
+          <td>Paris specialites</td>
+          <td>France</td>
+        </tr><tr>
+          <td>North/South</td>
+          <td>UK</td>
+        </tr>
+        <tr>
+          <td>Paris specialites</td>
+          <td>France</td>
+        </tr><tr>
+          <td>North/South</td>
+          <td>UK</td>
+        </tr>
+        <tr>
+          <td>Paris specialites</td>
+          <td>France</td>
+        </tr><tr>
+          <td>North/South</td>
+          <td>UK</td>
+        </tr>
+        <tr>
+          <td>Paris specialites</td>
+          <td>France</td>
+        </tr><tr>
+          <td>North/South</td>
+          <td>UK</td>
+        </tr>
+        <tr>
+          <td>Paris specialites</td>
+          <td>France</td>
+        </tr>
+      </tbody>
+    </table>
+    <ul class="pagination">
+
+    </ul>
+  </div>
+</div>
+
+{% endblock %}

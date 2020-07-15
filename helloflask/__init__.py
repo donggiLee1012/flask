@@ -8,11 +8,9 @@ import os
 app = Flask(__name__)
 app.debug = True
 
-app.config.from_object(Config)
-db = SQLAlchemy(app)
-migrate = Migrate(app,db)
+posts_contain={
 
-
+}
 # 기본페이지
 @app.route("/")
 def helloworld():
@@ -27,8 +25,17 @@ def res1():
 
 @app.route('/test')
 def test():
-    return render_template('navbar.html',title='테스트 페이지')
 
+
+
+    return render_template('main.html',title='메인페이지',posts_contain = posts_contain)
+
+
+@app.route('/crwaling')
+def crwaling():
+
+
+    return render_template('crawling.html',posts_contain=posts_contain)
 
 # @app.route('/login', methods=['POST', 'GET'])
 # def login():
