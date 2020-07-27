@@ -1,7 +1,6 @@
-from flask import Flask,g,make_response,Response,url_for,request,render_template
+from flask import Flask,g,make_response,Response,url_for,request,render_template,redirect
 from config import Config
-from flask_migrate import Migrate
-from flask_sqlalchemy import SQLAlchemy
+
 
 
 import os
@@ -73,16 +72,52 @@ def show_string(strings):
 def show_about():
     return render_template('about.html')
 
-@app.route('/test_wsgi')
-def wsgi_test():
-    # environ == Flask 환경변수를 담고있다.
-    def application(environ,start_response):
-        body='The request method was {}'.format(environ['REQUEST_METHOD'])
-        headers =[('Content-Type','text/plain'),
-                  ('Content-Length',str(len(body)))]
-        start_response('200 OK',headers)
-        return [body]
-    return make_response(application)
+# @app.route('/test_wsgi')
+# def wsgi_test():
+#     # environ == Flask 환경변수를 담고있다.
+#     def application(environ,start_response):
+#         body='The request method was {}'.format(environ['REQUEST_METHOD'])
+#         headers =[('Content-Type','text/plain'),
+#                   ('Content-Length',str(len(body)))]
+#         start_response('200 OK',headers)
+#         return [body]
+#     return make_response(application)
+
+@app.route('/youtube')
+def youtube():
+    return render_template('youtube.html')
+
+
+@app.route('/youtube/comments', methods=['GET','POST'])
+def testsmaple():
+
+    if request.method == 'POST':
+        # uname = request.form['youtubename']
+        # cnt = request.form['cnt']
+        # reple_cnt = request.form['reple_cnt']
+        args = request.form['youtubename']
+        cnt = request.form['cnt']
+        reple_cnt = request.form['reple_cnt']
+
+        return '{}{}{}'.format(args,cnt,reple_cnt)
+
+
+
+
+    elif request.method == 'GET':
+
+        # searchword = request.args.get('youtubename')
+        # cnt = request.args.get('cnt')
+        # reple_cnt = request.args.get('reple_cnt')
+        args = request.args['youtubename']
+
+
+        return args
+
+    else :
+        return redirect(url_for('page_not_found'))
+
+
 
 @app.route('/index')
 def index():

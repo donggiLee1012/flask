@@ -1,12 +1,19 @@
-import os,sys
-from helloflask.module.footsellcrawl import *
+# import os,sys
+# from helloflask.module.footsellcrawl import *
+#
+# crawling = Footsell()
+#
+# print(dir(crawling))
+#
+# crawling.start('덩크')
+#
+# pool_list=crawling.parser()
+#
+# print(pool_list)
 
-crawling = Footsell()
 
-print(dir(crawling))
+from helloflask.module.youtube_comments import *
 
-crawling.start('덩크')
+utube = Youtube('조블리',5,10)
 
-pool_list=crawling.parser()
-
-print(pool_list)
+utube.start()

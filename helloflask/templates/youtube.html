@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+	<title>HTML5 Input Types</title>
+	<style>
+		.tab { white-space: pre; }
+		
+	</style>
+</head>
+
+<body>
+
+<form action="/youtube/comments" method="POST">
+  <fieldset style="width:80%">
+    <legend style="text-align: center;">유튜브 댓글 수집</legend>
+	댓글 수집을할 유튜버 이름을 입력해주세요 : <input type="search" name="youtubename" placeholder="조블리 or 비됴클래스....."><br><br>
+	몇건의 유튜브 영상을 크롤링하시겠습니까? : <input type="number" name="cnt" placeholder="35 or 14 ..."><br><br>
+	각 동영상에서 추출할 댓글은 몇건 입니까? : <input type="number" name="reple_cnt"><br><br>
+	
+<br>
+    <input type="submit" value="전송">
+    <input type="reset" value="입력 초기화">
+  </fieldset>
+
+</form>
+</body>
+
+</html>
