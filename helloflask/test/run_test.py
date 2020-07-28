@@ -10,10 +10,3 @@
 # pool_list=crawling.parser()
 #
 # print(pool_list)
-
-
-from helloflask.module.youtube_comments import *
-
-utube = Youtube('조블리',5,10)
-
-utube.start()

@@ -13,7 +13,38 @@ posts_contain={
 # 기본페이지
 @app.route("/")
 def helloworld():
-    return os.getcwd()
+
+    # 크롤링 결과의 수만큼 매개변수로받고
+    # 받은 매개변수만큼 반복문을 돌리고
+    # 돌릴 반복문은 태그 생성자
+
+    #몇개의 댓글 몇개의댓글인지만
+    colums = ['받아온값','또받아온값','한번더받아온값']
+    rows =['행','행2']
+
+
+    mk_colums='<thead><tr>'
+    for i in colums:
+        mk_colums += '<th>{columm}</th>'.format(columm=i)
+    mk_colums += '</tr></thead>'
+
+
+    mk_row='<tbody>'
+    # for i in rows:
+    #
+    #     mk_row += '''
+    #     <tr>
+    #     <td><a href="{url}">{youtuber}</a></td>
+    #     <td>{name}</td>
+    #     <td>{comments}</td>
+    #     <td>{like}</td>
+    #     </tr>
+    #     '''.format(i)
+
+    mk_row += '</tbody>'
+
+
+    return mk_colums
 
 
 ##################
@@ -137,7 +168,6 @@ def index():
             'age': 37,
             'job': '셀럽'
         }
-
 
     ]
     return render_template('index.html',sample=sample,glist=glist,posts=posts)
