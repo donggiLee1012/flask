@@ -1,0 +1,72 @@
+{%extends 'main.html'%}
+
+{%block head %}
+{{super()}}
+
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+
+<style>
+	.tab {
+		white-space: pre;
+	}
+
+	.tb_top,
+	.tb_top tr,
+	.tb_top td,
+	.tb_top th {
+		border: 1px solid black;
+		text-align: center;
+	}
+
+	#loading {
+		width: 100%;
+		height: 100%;
+		top: 0px;
+		left: 0px;
+		position: fixed;
+		display: block;
+		opacity: 0.7;
+		background-color: #fff;
+		z-index: 99;
+		text-align: center;
+	}
+
+	#loading-image {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		z-index: 100;
+	}
+</style>
+<script>
+	$(window).load(function () {
+		$('#loading').hide();
+	});
+
+	$(function () {
+		$("#tablesort").dataTable();
+	});
+</script>
+
+
+{%endblock%}
+
+{% block main_text %}
+<center>
+	<form action="/footsell/marketprice" method="POST">
+		<fieldset style="width:80%">
+			<legend style="text-align: center;">신발 시세 수집</legend>
+			검색하실 신발명을 입력해주세요 : <input type="search" name="query_txt" placeholder="조블리 or 비됴클래스....."><br><br>
+			사이즈를 : <input type="number" name="size" placeholder="Number...."><br><br>
+			몇개의 신발데이터를 수집하시겠습니까? : <input type="number" name="many" placeholder="Number ..."><br><br>
+
+			<br>
+			<input type="submit" value="전송">
+			<input type="reset" value="입력 초기화">
+		</fieldset>
+
+</center>
+<div id="loading"><img id="loading-image" src="../static/img/loading.gif" alt="loading" /></div>
+
+{% endblock %}

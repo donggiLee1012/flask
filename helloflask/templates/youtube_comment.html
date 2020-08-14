@@ -1,0 +1,142 @@
+{%extends 'main.html'%}
+
+{%block head %}
+{{super()}}
+
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+<style>
+  .tab {
+    white-space: pre;
+  }
+
+  .tb_top,
+  .tb_top tr,
+  .tb_top td,
+  .tb_top th {
+    border: 1px solid black;
+    text-align: center;
+  }
+
+  #loading {
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    position: fixed;
+    display: block;
+    opacity: 0.7;
+    background-color: #fff;
+    z-index: 99;
+    text-align: center;
+  }
+
+  #loading-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 100;
+  }
+  td{white-space:nowrap; text-overflow:ellipsis; overflow:hidden;}
+
+
+
+
+</style>
+
+
+
+
+
+<script>
+  $(window).load(function () {
+    $('#loading').hide();
+  });
+  $(function () {
+    $("#tablesort").dataTable();
+  });
+</script>
+
+
+{%endblock%}
+
+{% block main_text %}
+<div id="loading"><img id="loading-image" src="../static/img/loading.gif" alt="loading" /></div>
+
+<center>
+  <h1>Youtube Crawling</h1>
+
+  검색어 : {{args}} <br>
+  영상 총 검색수 : {{cnt}} <br>
+  영상 당 댓글수 : {{reple_cnt}}
+
+  <div>
+    <table class="tb_top" style="width: 70%;">
+      <tr></tr>
+      <th>유튜버</th>
+      <th>구독자수</th>
+      <th>
+        영상제목
+      </th>
+      <th>조회수</th>
+      <th>총댓글수</th>
+      <th>게시일</th>
+      <th>좋아요</th>
+      <th>싫어요</th>
+      </tr>
+      <tr>
+        <td><a href="https://www.youtube.com/watch?v=njp1YLEIN0k" target="_blank"><img
+              src="https://i.ytimg.com/vi/njp1YLEIN0k/hq720.jpg?sqp=-oaymwEZCOgCEMoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLCsePDr8hFMs4lLKx9nDDK_L2720A"
+              alt=""></a></td>
+        <td>1.5만명</td>
+        <td>72시간 브이로그 뭐무머무머머머ㅓ머머머머</td>
+        <td>446,490</td>
+        <td>734</td>
+        <td>2020.07.24</td>
+        <td>325</td>
+        <td>3</td>
+      </tr>
+    </table>
+  </div>
+  <br>
+
+  <!-- - dataTable()은 %로 컬럼을 크기를 조절하기 때문에 고정크기의 div안에 넣어주면 원하는 크기의 table을 만들수 있습니다.  -->
+  <table id="tablesort">
+    <!-- *thead와 tbody로 colum과 row를 비교하기 때문에 반드시 추가해 줍니다. (추가해주지 않으면 적용되지 않습니다.) -->
+    <thead>
+      <tr>
+        <th>유튜버</th>
+        <th>작성자</th>
+        <th>댓글내용</th>
+        <th>좋아요</th>
+        <th>게시일</th>
+      </tr>
+
+    </thead>
+    <tbody>
+      <!-- 내용 -->
+      {% for ycnt in comment_list %}
+      {% for recnt in ycnt %}
+      <tr>
+        <td width=10%><a href="{{ contents[comment_list.index(ycnt)] }}" target="_blank">{{recnt[3]}}</a></td>
+        <td width=10%>{{recnt[0]}}</td>
+        <td width=60%>{{recnt[1]}}</td>
+        <td width=10%>{{recnt[2]}}</td>
+        <td width=10%>{{recnt[4]}}</td>
+      </tr>
+      {% endfor %}
+      
+      {% endfor %}
+
+
+
+
+    </tbody>
+  </table>
+</center>
+{% endblock %}
+
+
+
+-->

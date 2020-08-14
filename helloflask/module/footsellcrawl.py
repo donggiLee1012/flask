@@ -1,3 +1,5 @@
+import math
+
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -7,27 +9,90 @@ import numpy as np
 import pandas as pd
 import time
 from selenium.webdriver.common.by import By
-from konlpy.tag import Hannanum,Kkma,Okt,Komoran
+from selenium.webdriver.chrome.options import Options
+
 import os,sys
 
-print(os.getcwd())
-
 class Footsell:
+
+
     robots = 'robots.txt'
-    footsell = 'https://footsell.com/'
-    f_uri = 'g2/bbs/board.php?bo_table=m51&r=ok'
+    footsell = 'https://footsell.com'
+    f_uri = r'/g2/bbs/board.php?bo_table=m51&r=ok'
     # request로 driver 없는거로 바꿔주자
-    driverpath = r'C:\Users\guide\Desktop\mulitdong\chromedriver.exe'
+    driverpath = r'C:\Users\donggi\Desktop\python_flask\helloflask\module\chromedriver.exe'
+    time_marker = time.strftime('%Y-%m-%d', time.localtime())
 
-    def __init__(self):
+
+    def __init__(self,query_txt,size,many):
+
+
+
+        self.homepath = os.path.expanduser('~')
+
+        s_path = os.path.join(self.homepath, 'Desktop', 'footsell_marketprice')
+        self.now = time.localtime()
+        self.s = '%04d-%02d-%02d-%02d-%02d' % (self.now.tm_year, self.now.tm_mon, self.now.tm_mday,
+                                               self.now.tm_hour, self.now.tm_min)
+        self.query_txt = query_txt
+        self.size = int(size)
+        self.many = int(many)
+
+        if os.path.exists(s_path + '/' + self.s + query_txt):
+            pass
+        else:
+            os.makedirs(s_path + '/' + self.s + query_txt)
+
+        self.ff_name = s_path + '/' + self.s + self.query_txt + '\\' + self.s + '-' + self.query_txt + '.txt'
+        self.fc_name = s_path + '/' + self.s + self.query_txt + '\\' + self.s + '-' + self.query_txt + '.csv'
+        self.fx_name = s_path + '/' + self.s + self.query_txt + '\\' + self.s + '-' + self.query_txt + '.xls'
+
+        # options = Options()
+        # options.add_argument('headless')
+        # options.add_argument('window-size=1920x1080')
+        # options.add_argument("disable-gpu")
+        # options.add_argument("lang=ko_KR")
+        # self.driver = webdriver.Chrome(self.driverpath, options=options)
         self.driver = webdriver.Chrome(Footsell.driverpath)
-        self.df = pd.DataFrame(columns=['title', 'size', 'condition', 'price', 'days', 'seller', 'site'])
-        self.search = ''
+
+        self.driver.implicitly_wait(10)
+        self.driver.get(Footsell.footsell + Footsell.f_uri)
 
 
-    def check(border_list_att, time_marker):
+    def search(self):
+        # 검색
+        search_box = self.driver.find_element_by_css_selector('#list_search_text_input')
+        search_box.send_keys(self.query_txt)
+        search_box.send_keys(Keys.ENTER)
+
+        # 사이즈별 선택한게있으면 실행
+        if self.size !='':
+            input_size = 'option[value="' + '{}"]'.format(self.size)
+            size_select = self.driver.find_element(By.CSS_SELECTOR, input_size)
+            size_select.click()
+
+
+    def parser(self,soup_list=[]):
+
+        for j in range(math.ceil(int(self.many) / 40)):
+            html = self.driver.page_source
+            soup = BeautifulSoup(html, 'html.parser')
+            time.sleep(2)
+            border_list = soup.find_all(id=re.compile('list_row_'))
+
+            if border_list == []:
+                print('검색결과없음')
+                break
+
+            soup_list.append(border_list)
+
+            try:
+                self.driver.find_elements(By.CSS_SELECTOR, 'ul>li>a')[j].send_keys(Keys.ENTER)
+            except:
+                break
+
+    def check(self,border_list_att):
         # 제목
-
         try:
             title = border_list_att.find('span', id=re.compile('^list_subject_')).text.strip()
 
@@ -59,64 +124,8 @@ class Footsell:
         img = border_list_att.find('img').get('src')
 
         if ':' in uploadtime:
-            uploadtime = time_marker
+            uploadtime = Footsell.time_marker
 
         return [title, condition, size, price, seller, uploadtime, uri, img]
 
 
-    def start(self, search):
-        self.driver.get(Footsell.footsell + Footsell.f_uri)
-        self.driver.implicitly_wait(3)
-
-        search_box = self.driver.find_element_by_css_selector('#list_search_text_input')
-
-        self.search = search
-        if self.search == '':
-            pass
-        else:
-            search_box.send_keys(self.search)
-            search_box.send_keys(Keys.ENTER)
-
-    def parser(self):
-        pool_list = []
-        time_marker = time.strftime('%Y-%m-%d', time.localtime())
-
-        page = self.driver.find_elements(By.CSS_SELECTOR, 'ul>li>a')
-
-        if len(page) > 10:
-            for i in range(len(page) - 1):
-                html = self.driver.page_source
-                soup = BeautifulSoup(html, 'html.parser')
-                time.sleep(2)
-                border_list = soup.find_all(id=re.compile('list_row_'))
-
-                if self.search == "":
-
-                    # 검색값없으면
-                    border_list = border_list[3:]
-                else:
-                    pass
-
-                for j in border_list:
-                    pool_list.append(Footsell.check(j, time_marker))
-
-                self.driver.find_elements(By.CSS_SELECTOR, 'ul>li>a')[i].send_keys(Keys.ENTER)
-                time.sleep(3)
-
-        elif len(page) <= 10:
-            for i in range(len(page)):
-                html = self.driver.page_source
-                soup = BeautifulSoup(html, 'html.parser')
-                time.sleep(2)
-                border_list = soup.find_all(id=re.compile('list_row_'))
-
-                for j in border_list:
-                    pool_list.append(Footsell.check(j, time_marker))
-
-                self.driver.find_elements(By.CSS_SELECTOR, 'ul>li>a')[i].send_keys(Keys.ENTER)
-                time.sleep(3)
-
-        else:
-            print('Error')
-
-        return pool_list

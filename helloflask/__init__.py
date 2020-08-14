@@ -1,6 +1,7 @@
 from flask import Flask,g,make_response,Response,url_for,request,render_template,redirect
 from config import Config
-
+from helloflask.module.youtube_comments import *
+from helloflask.module.footsellcrawl import *
 
 
 import os
@@ -19,6 +20,23 @@ def helloworld():
     # 돌릴 반복문은 태그 생성자
 
     #몇개의 댓글 몇개의댓글인지만
+
+    detail_col =[]
+
+    # url= youtube_comment()
+
+    # detail='''
+    # <td><a href='{url}' target='_blank'>
+    # <img src='{thumbnail}' alt='thumbnail'></a></td>
+    # <td>{subscribe}</td>
+    # <td>{title}</td>
+    # <td>{views}<td>
+    # <td>{uploaddate}</td>
+    # <td>{likes}</td>
+    # <td>{dislikes }</td>
+    # '''.format(url=url,thumbnail=thumbnail,subscribe=subscribe,title=title,
+    #            views=views,uploaddate=uploaddate,likes=likes,dislikes=dislikes)
+
     colums = ['받아온값','또받아온값','한번더받아온값']
     rows =['행','행2']
 
@@ -38,6 +56,7 @@ def helloworld():
     #     <td>{name}</td>
     #     <td>{comments}</td>
     #     <td>{like}</td>
+    #     <td>{update}</td>
     #     </tr>
     #     '''.format(i)
 
@@ -61,11 +80,44 @@ def test():
     return render_template('main.html',title='메인페이지',posts_contain = posts_contain)
 
 
-@app.route('/crwaling')
-def crwaling():
+@app.route('/footsell')
+def footsell():
 
 
-    return render_template('crawling.html',posts_contain=posts_contain)
+    return render_template('footsell.html')
+
+
+@app.route('/footsell/marketprice', methods=['GET', 'POST'])
+def footsell_marketprice():
+    if request.method == 'POST':
+        query_txt = request.form['query_txt']
+        size = request.form['size']
+        many = request.form['many']
+
+
+        foot = Footsell(query_txt,size,many)
+
+        soup_list = []
+        count = 0
+        pool = []
+
+        foot.search()
+
+
+        foot.parser(soup_list)
+
+        for j in soup_list:
+            for i in j:
+                pool.append(foot.check(i))
+                count += 1
+                if count == many:
+                    break
+
+        foot.driver.quit()
+        del foot
+
+    return render_template('footsell_marketprice.html',pool=pool)
+
 
 # @app.route('/login', methods=['POST', 'GET'])
 # def login():
@@ -116,21 +168,45 @@ def show_about():
 
 @app.route('/youtube')
 def youtube():
+
     return render_template('youtube.html')
 
 
 @app.route('/youtube/comments', methods=['GET','POST'])
-def testsmaple():
+def youtube_comments():
 
     if request.method == 'POST':
         # uname = request.form['youtubename']
         # cnt = request.form['cnt']
         # reple_cnt = request.form['reple_cnt']
+
         args = request.form['youtubename']
         cnt = request.form['cnt']
         reple_cnt = request.form['reple_cnt']
 
-        return '{}{}{}'.format(args,cnt,reple_cnt)
+
+        utube = Youtube(args,cnt,reple_cnt)
+
+        thumbnail = []
+        pool = []
+        comment_list = []
+
+        contents = utube.search(thumbnail)
+        for i in contents:
+            try:
+                comments = utube.comment_parser(utube.utuber_parser(i, pool))
+                comment_list.append(comments)
+            except:
+                pass
+            utube.driver.quit()
+        del utube
+
+
+        return render_template('youtube_comment.html',args=args,cnt=cnt,reple_cnt=reple_cnt,
+                               comment_list=comment_list,
+                               thumbnail=thumbnail,
+                               contents=contents)
+
 
 
 
@@ -182,6 +258,9 @@ def page_not_found(error):
 @app.before_request # 요청 시작전에 실행
 def before_request():
     print("before_request!! 난 무조건 처음에나와")
+
+
+
     g.str = '이동기'    # g는 application context(영역)이다.
 
 # @app.route('/gtest')

@@ -1,0 +1,109 @@
+{%extends 'main.html'%}
+
+{%block head %}
+{{super()}}
+
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+<style>
+  .tab {
+    white-space: pre;
+  }
+
+  .tb_top,
+  .tb_top tr,
+  .tb_top td,
+  .tb_top th {
+    border: 1px solid black;
+    text-align: center;
+  }
+
+  #loading {
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    position: fixed;
+    display: block;
+    opacity: 0.7;
+    background-color: #fff;
+    z-index: 99;
+    text-align: center;
+  }
+
+  #loading-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 100;
+  }
+  td{white-space:nowrap; text-overflow:ellipsis; overflow:hidden;}
+
+
+
+
+</style>
+
+
+
+
+
+<script>
+  $(window).load(function () {
+    $('#loading').hide();
+  });
+  $(function () {
+    $("#tablesort").dataTable();
+  });
+</script>
+
+
+{%endblock%}
+
+{% block main_text %}
+<div id="loading"><img id="loading-image" src="../static/img/loading.gif" alt="loading" /></div>
+
+<center>
+  <h1>Footsell Crawling</h1>
+
+   <!--dataTable()은 %로 컬럼을 크기를 조절하기 때문에 고정크기의 div안에 넣어주면 원하는 크기의 table을 만들수 있습니다.  -->
+
+<table id="tablesort">
+  <!-- *thead와 tbody로 colum과 row를 비교하기 때문에 반드시 추가해 줍니다. (추가해주지 않으면 적용되지 않습니다.) -->
+  <thead>
+    <tr>
+      <th>사진</th>
+      <th>제목</th>
+      <th>상태</th>
+      <th>사이즈</th>
+      <th>가격</th>
+      <th>판매자명</th>
+      <th>게시일</th>
+
+    </tr>
+
+  </thead>
+  <tbody>
+    <!-- 내용 -->
+    
+    {% for pool_detail in pool %}
+    <tr>
+      <td><a href="https://footsell.com{{pool_detail[6]}}"><img src="https://footsell.com{{pool_detail[7]}}" alt=""></a></td>
+      <td>{{pool_detail[0]}}</td>
+      <td>{{pool_detail[1]}}</td>
+      <td>{{pool_detail[2]}}</td>
+      <td>{{pool_detail[3]}}</td>
+      <td>{{pool_detail[4]}}</td>
+      <td>{{pool_detail[5]}}</td>
+    </tr>
+    
+    {% endfor %}
+
+  
+
+
+  </tbody>
+</table>
+</center>
+{% endblock %}
