@@ -35,6 +35,7 @@ class Footsell:
         self.s = '%04d-%02d-%02d-%02d-%02d' % (self.now.tm_year, self.now.tm_mon, self.now.tm_mday,
                                                self.now.tm_hour, self.now.tm_min)
         self.query_txt = query_txt
+
         self.size = int(size)
         self.many = int(many)
 

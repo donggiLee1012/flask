@@ -207,10 +207,6 @@ def youtube_comments():
                                thumbnail=thumbnail,
                                contents=contents)
 
-
-
-
-
     elif request.method == 'GET':
 
         # searchword = request.args.get('youtubename')

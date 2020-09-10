@@ -58,7 +58,14 @@
 		<fieldset style="width:80%">
 			<legend style="text-align: center;">신발 시세 수집</legend>
 			검색하실 신발명을 입력해주세요 : <input type="search" name="query_txt" placeholder="조블리 or 비됴클래스....."><br><br>
-			사이즈를 : <input type="number" name="size" placeholder="Number...."><br><br>
+			사이즈를 : 
+			<select name="size">
+				<!-- <option value="" selected='selected'>없음</option> -->
+				{% for i in range(220,315,5) %}
+				<option value="{{i}}">{{i}}mm</option>
+				{% endfor %}
+			</select><br><br>
+			
 			몇개의 신발데이터를 수집하시겠습니까? : <input type="number" name="many" placeholder="Number ..."><br><br>
 
 			<br>
